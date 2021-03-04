@@ -5,6 +5,25 @@ library(data.table)
 #data.exchanges = getExchanges()
 main()
 
+date1 = as.Date('2021-03-02')
+date2 = as.Date('2021-02-02')
+portfolio = data.table(ticker = c("GD"))
+
+backtest = function (portfolio, date1, date2) {
+  #portfolio should be a data table with ticker and buy price
+  #get a count of days between dates
+  #calculate profit between two dates
+  #date1 is the last day and date2 is the first day in the range
+  for(x in 1:nrow(portfolio[1])) {
+  indexDate1 = grep(as.character(date1), data.masterTable[[5]][[x]])
+  indexDate2 = grep(as.character(date2), data.masterTable[[5]][[x]])
+  price1 = data.masterTable[[5]][[x]][indexDate1][[1]]$close
+  price2 = data.masterTable[[5]][[x]][indexDate2][[1]]$close
+  portfolio[[2]][x] = price1 - price2
+  }
+  colnames(portfolio) = c("ticker", "return")
+}
+
 main = function() {
   
   data.ndaqTickers = getTickers('XNAS')
